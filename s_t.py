@@ -74,7 +74,7 @@ os.makedirs("temp", exist_ok=True)
 
 # --- BOTÓN DE ESCUCHA ---
 st.markdown("### 🔻 Pulsa para hablar:")
-stt_button = Button(label="🎤 Escuchar", width=300, button_type="success")
+stt_button = Button(label="🎤 Escuchar", width=600, button_type="success")
 
 stt_button.js_on_event(
     "button_click",

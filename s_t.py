@@ -62,7 +62,7 @@ st.markdown("Convierte tu voz en otro idioma y escúchala al instante 🌍")
 
 # --- IMAGEN / LOGO ---
 if os.path.exists("Diversity.jpeg"):
-    st.image("Diversity.jpeg", width=200)
+    st.image("Diversity.jpeg", width=400)
 
 # --- SIDEBAR ---
 with st.sidebar:

@@ -5,7 +5,7 @@ gTTS==2.2.2
 googletrans==4.0.0rc1
 pillow
 pandas
-numpy
+numpy==1.23.5
 jinja2
 pyyaml
 tornado

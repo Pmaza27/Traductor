@@ -61,8 +61,8 @@ st.title("🎙️ Traductor de Voz Multilingüe")
 st.markdown("Convierte tu voz en otro idioma y escúchala al instante 🌍")
 
 # --- IMAGEN / LOGO ---
-if os.path.exists("OIG7.jpg"):
-    st.image("OIG7.jpg", width=200)
+if os.path.exists("Diversity.jpg"):
+    st.image("Diversity.jpg", width=200)
 
 # --- SIDEBAR ---
 with st.sidebar:

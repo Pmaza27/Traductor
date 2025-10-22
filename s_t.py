@@ -8,73 +8,110 @@ import time
 import glob
 from PIL import Image
 
-# --- CONFIGURACIÓN DE LA PÁGINA ---
+# --- CONFIGURACIÓN DE PÁGINA ---
 st.set_page_config(page_title="Traductor de Voz", page_icon="🎧", layout="centered")
 
 # --- CSS PERSONALIZADO ---
 st.markdown("""
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
 body {
-    background: linear-gradient(135deg, #232526 0%, #414345 100%);
-    color: #f8f9fa;
+    background-color: #f9f4ec; /* Fondo crema */
+    color: #2b2b2b;
     font-family: 'Poppins', sans-serif;
 }
-h1, h2, h3 {
-    text-align: center;
-    color: #ffffff;
-}
+
+/* Contenedor principal */
 [data-testid="stAppViewContainer"] > .main {
-    background: rgba(255, 255, 255, 0.07);
-    border-radius: 20px;
-    padding: 2rem;
-    box-shadow: 0px 4px 20px rgba(0,0,0,0.5);
-    backdrop-filter: blur(12px);
+    background: #ffffffcc;
+    border-radius: 25px;
+    padding: 3rem 2rem;
+    box-shadow: 0px 8px 30px rgba(0,0,0,0.1);
+    max-width: 750px;
+    margin: 2rem auto;
 }
+
+/* Títulos */
+h1 {
+    text-align: center;
+    color: #1a1a1a;
+    font-weight: 700;
+    font-size: 2.6rem;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.3rem;
+}
+h2, h3 {
+    color: #333333;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Subtexto */
+p, .stMarkdown {
+    font-size: 1rem;
+    color: #444;
+}
+
+/* Botones */
 .stButton > button {
-    background-color: #00ADB5;
+    display: block;
+    margin: 0 auto;
+    background-color: #3b82f6; /* azul suave */
     color: white;
     border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 10px;
+    border-radius: 12px;
+    padding: 0.9rem 2rem;
     font-size: 1.1rem;
-    transition: all 0.2s ease;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(59,130,246,0.4);
+    transition: all 0.2s ease-in-out;
 }
 .stButton > button:hover {
-    background-color: #08d9d6;
-    transform: scale(1.03);
+    background-color: #2563eb;
+    transform: scale(1.05);
 }
+
+/* Selects y checkboxes */
+.stSelectbox, .stCheckbox {
+    color: #1a1a1a;
+}
+
+/* Audio player */
 .stAudio {
-    border-radius: 10px;
+    border-radius: 12px;
 }
-.stSelectbox, .stCheckbox, .stTextInput {
-    color: black;
-}
+
+/* Sidebar */
 .sidebar .sidebar-content {
-    background: rgba(0, 0, 0, 0.4);
+    background: #fffaf3;
     border-radius: 15px;
 }
 </style>
 """, unsafe_allow_html=True)
 
 # --- ENCABEZADO ---
-st.title("🎙️ Traductor de Voz Multilingüe")
-st.markdown("Convierte tu voz en otro idioma y escúchala al instante 🌍")
+st.title("🎙️ Traductor de Voz")
+st.markdown(
+    "<p style='text-align:center; font-size:1.1rem; color:#555;'>Habla, traduce y escucha tu voz en otro idioma al instante 🌍</p>",
+    unsafe_allow_html=True,
+)
 
 # --- IMAGEN / LOGO ---
 if os.path.exists("Diversity.jpeg"):
-    st.image("Diversity.jpeg", width=400)
+    st.image("Diversuty.jpeg", width=180)
 
 # --- SIDEBAR ---
 with st.sidebar:
     st.header("⚙️ Configuración")
-    st.write("Presiona el botón principal para hablar, luego selecciona los idiomas y el acento que prefieras.")
+    st.info("Presiona el botón principal para hablar y luego selecciona el idioma y el acento que prefieras.")
 
 # --- CARPETA TEMPORAL ---
 os.makedirs("temp", exist_ok=True)
 
 # --- BOTÓN DE ESCUCHA ---
-st.markdown("### 🔻 Pulsa para hablar:")
-stt_button = Button(label="🎤 Escuchar", width=700, button_type="success")
+st.markdown("<h3 style='text-align:center;'>🎤 Pulsa para hablar:</h3>", unsafe_allow_html=True)
+stt_button = Button(label="Escuchar ahora", width=350, button_type="success")
 
 stt_button.js_on_event(
     "button_click",
@@ -139,7 +176,7 @@ if result and "GET_TEXT" in result:
     with col2:
         out_lang = st.selectbox("Idioma de salida:", list(LANGUAGES.keys()), index=0)
 
-    accent = st.selectbox("Acento (solo para inglés):", list(ACCENTS.keys()), index=0)
+    accent = st.selectbox("Acento (solo inglés):", list(ACCENTS.keys()), index=0)
     show_text = st.checkbox("Mostrar texto traducido", value=True)
 
     st.divider()
@@ -160,13 +197,15 @@ if result and "GET_TEXT" in result:
             st.audio(filename, format="audio/mp3")
 
             if show_text:
-                st.markdown("### 📝 Traducción:")
-                st.markdown(f"<div style='font-size:1.2rem;color:#00FFF5;'>{translated_text}</div>", unsafe_allow_html=True)
+                st.markdown(
+                    f"<div style='font-size:1.2rem; color:#2563eb; text-align:center; margin-top:1rem;'>📝 {translated_text}</div>",
+                    unsafe_allow_html=True,
+                )
 
         except Exception as e:
             st.error(f"Ocurrió un error: {e}")
 
-# --- LIMPIEZA ---
+# --- LIMPIEZA DE AUDIOS ANTIGUOS ---
 def remove_old_files(days=3):
     now = time.time()
     cutoff = now - days * 86400

@@ -99,7 +99,7 @@ st.markdown(
 
 # --- IMAGEN / LOGO ---
 if os.path.exists("Diversity.jpeg"):
-    st.image("Diversity.jpeg", width=180)
+    st.image("Diversity.jpeg", width=580)
 
 # --- SIDEBAR ---
 with st.sidebar:
